@@ -2,6 +2,23 @@ import sys
 import time
 import serial.tools.list_ports
 
+def crc16_modbus(data):
+    """
+    Calculate the CRC16 for a data array for Modbus RTU.
+    :param data: The data array (excluding the CRC).
+    :return: CRC16 as a tuple of two bytes.
+    """
+    crc = 0xFFFF
+    for pos in data:
+        crc ^= pos
+        for i in range(8):
+            if (crc & 1) != 0:
+                crc >>= 1
+                crc ^= 0xA001
+            else:
+                crc >>= 1
+    return [crc & 0xFF, (crc >> 8) & 0xFF]
+
 class Physic:
     def __init__(self, debug_flag = False):
         """Initializes the Physics class with a debug flag and the actuators and sensors formats.
@@ -81,9 +98,17 @@ class Physic:
             print("Sending data: ",command_data)
         self.ser.write(command_data)  # Sends the command data to the actuator
         time.sleep(1)
+
         return_data, result = self.serial_read_data()  # Reads the response from the actuator
-        if self.debug_flag == True and (return_data != command_data or len(return_data) <= 0):
-            print("Failed to set Actuator!")
+        if self.debug_flag == True:
+            flag_check_data = True
+            if len(return_data) <= 0:
+                flag_check_data = False
+            for i in range(6):
+                if(command_data[i] != return_data[i]):
+                    flag_check_data = False
+            if flag_check_data == False:
+                print("Failed to set Actuator!")
 
     def readSensors(self, sensorName):
         """Sends a command to read data from a specified sensor."""
@@ -97,7 +122,6 @@ class Physic:
 
 if __name__ == '__main__':
     physic = Physic(True)  # Initialize the class with debug mode enabled
-
     # Test sequence for actuators and sensors
     while True:
         # Testing actuator control
