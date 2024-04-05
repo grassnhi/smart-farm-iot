@@ -77,6 +77,8 @@ class Physic:
         """Sends a command to set the state of an actuator (relay) based on its ID."""
         command_key = f'relay{ID}_{"ON" if state else "OFF"}'
         command_data = self.RS485_actuartors_format.get(command_key)
+        if self.debug_flag == True:
+            print("Sending data: ",command_data)
         self.ser.write(command_data)  # Sends the command data to the actuator
         time.sleep(1)
         return_data, result = self.serial_read_data()  # Reads the response from the actuator
@@ -89,6 +91,7 @@ class Physic:
         self.ser.write(command_data)  # Sends the command data to the sensor
         time.sleep(1)  # Wait a bit for the sensor to respond
         return_data, result = self.serial_read_data()  # Reads the response from the sensor
+        result = result/100.00
         return result  # Returns the decoded sensor value
 
 
