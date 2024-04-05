@@ -78,6 +78,7 @@ class Physic:
         command_key = f'relay{ID}_{"ON" if state else "OFF"}'
         command_data = self.RS485_actuartors_format.get(command_key)
         self.ser.write(command_data)  # Sends the command data to the actuator
+        time.sleep(1)
         return_data, result = self.serial_read_data()  # Reads the response from the actuator
         if self.debug_flag == True and (return_data != command_data or len(return_data) <= 0):
             print("Failed to set Actuator!")
