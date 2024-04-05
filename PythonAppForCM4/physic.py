@@ -109,10 +109,13 @@ class Physic:
                     flag_check_data = False
             if flag_check_data == False:
                 print("Failed to set Actuator!")
+            else: print("Success to set actuator!")
 
     def readSensors(self, sensorName):
         """Sends a command to read data from a specified sensor."""
         command_data = self.RS485_sensors_format.get(sensorName)
+        if self.debug_flag == True:
+            print("Sending data: ",command_data)
         self.ser.write(command_data)  # Sends the command data to the sensor
         time.sleep(1)  # Wait a bit for the sensor to respond
         return_data, result = self.serial_read_data()  # Reads the response from the sensor
