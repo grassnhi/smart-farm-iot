@@ -3,7 +3,7 @@ import time
 import serial.tools.list_ports
 
 class Physic:
-    def __init__(self, debug_flag = 0):
+    def __init__(self, debug_flag = False):
         """Initializes the Physics class with a debug flag and the actuators and sensors formats.
         It attempts to open a serial connection to a specified port."""
         self.debug_flag = debug_flag # Debug flag to control debug output
@@ -63,7 +63,8 @@ class Physic:
         if bytesToRead > 0:
             out = self.ser.read(bytesToRead)
             data_array = [b for b in out]  # Converts the bytes to a list for easier processing
-            if self.debug_flag: print("Return data:", data_array)
+            if self.debug_flag == True:
+                print("Return data:", data_array)
             if len(data_array) >= 7:
                 array_size = len(data_array)
                 value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
@@ -78,7 +79,7 @@ class Physic:
         command_data = self.RS485_actuartors_format.get(command_key)
         self.ser.write(command_data)  # Sends the command data to the actuator
         return_data, result = self.serial_read_data()  # Reads the response from the actuator
-        if self.debug_flag and (return_data != command_data or len(return_data) <= 0):
+        if self.debug_flag == True and (return_data != command_data or len(return_data) <= 0):
             print("Failed to set Actuator!")
 
     def readSensors(self, sensorName):
