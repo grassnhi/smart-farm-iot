@@ -12,4 +12,7 @@ fi
 echo "Cloning smart-farm-iot from GitHub..."
 git clone https://github.com/grassnhi/smart-farm-iot.git
 
+cd smart-farm-iot
+chmod 777 gitBash.sh
+
 echo "Setup completed successfully."
