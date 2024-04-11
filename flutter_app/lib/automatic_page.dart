@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class AutomaticPage extends StatelessWidget {
+class AutomaticPage extends StatefulWidget {
   const AutomaticPage({Key? key});
+
+  @override
+  _AutomaticPageState createState() => _AutomaticPageState();
+}
+
+class _AutomaticPageState extends State<AutomaticPage> {
+  bool isActive = false; // Variable to track the checkbox state
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,6 @@ class AutomaticPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              
               const SizedBox(height: 12),
               TextFormField(
                 decoration: const InputDecoration(
@@ -76,9 +82,11 @@ class AutomaticPage extends StatelessWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: true, // Set the initial value of the checkbox
+                    value: isActive, // Set the value based on isActive variable
                     onChanged: (value) {
-                      // Add your logic here for handling checkbox state changes
+                      setState(() {
+                        isActive = value ?? false; // Update isActive when checkbox state changes
+                      });
                     },
                   ),
                   const Text('Is Active'),
@@ -90,7 +98,7 @@ class AutomaticPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Add your logic here for handling form submission
+                      Navigator.pop(context);
                     },
                     child: const Text('Submit'),
                   ),
