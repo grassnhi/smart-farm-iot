@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
+import 'package:flutter_app/login_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -14,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isLedOn = false;
   bool isPumpOn = false;
-  bool isPumpIn = true; 
+  bool isPumpIn = true;
   bool isMixer1Pressed = false;
   bool isMixer2Pressed = false;
   bool isMixer3Pressed = false;
@@ -31,24 +33,46 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
-                  Text(
-                    'IoT',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.bold,
+                  const Expanded(
+                    child: Row(
+                      children: [
+                        Text(
+                          'IoT',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        RotatedBox(
+                          quarterTurns: 135,
+                          child: Icon(
+                            Icons.bar_chart_rounded,
+                            size: 28,
+                            color: Colors.indigo,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  RotatedBox(
-                    quarterTurns: 135,
-                    child: Icon(
-                      Icons.bar_chart_rounded,
-                      size: 28,
-                      color: Colors.indigo,
+                  SizedBox(
+                    width: 40, // Adjust the width as needed
+                    height: 40, // Adjust the height as needed
+                    child: IconButton(
+                      iconSize: 30, // Adjust the icon size as needed
+                      icon: const Icon(Icons.logout),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
                     ),
-                  )
+                  ),
                 ],
               ),
               Expanded(
@@ -105,7 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                         ),
-            
                       ],
                     ),
                     const SizedBox(
