@@ -1,0 +1,45 @@
+
+MQTT_SERVER = "mqtt.ohstem.vn"
+MQTT_PORT = 1883
+MQTT_USERNAME = "smarfarm_iot"
+MQTT_PASSWORD = " "
+MQTT_PUB_TOPIC = "smartfarm_iot/feeds/V20"
+MQTT_SUB_TOPIC = "smartfarm_iot/feeds/V15"
+
+[
+  {
+    "action": "control actuator",
+    "actuator_id": "relay_1",
+    "data" : "1"
+  }
+]
+
+[
+  {
+    "action": "schedule",
+    "cycle": 5,
+    "flow1": 20,
+    "flow2": 10,
+    "flow3": 20,
+    "isActive": true,
+    "schedulerName": "LỊCH TƯỚI 1",
+    "startTime": "18:30",
+    "stopTime": "18:40"
+  }
+]
+
+
+
+[
+  {
+    "action": "update sensor",
+    "cycle": 5,
+    "flow1": 20,
+    "flow2": 10,
+    "flow3": 20,
+    "isActive": true,
+    "schedulerName": "LỊCH TƯỚI 1",
+    "startTime": "18:30",
+    "stopTime": "18:40"
+  }
+]
