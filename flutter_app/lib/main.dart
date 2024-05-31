@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 import 'package:flutter_app/mqtt_helper.dart';
 import 'login_page.dart';
 import 'dart:convert'; // For JSON decoding
-
+import 'home_page.dart';
 // Global variable of mqtt for late using
 late MQTTHelper global_mqttHelper;
 
@@ -31,7 +32,9 @@ class MqttManager {
 
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // Initialize Firebase
   runApp(const MyApp());
 }
 
@@ -49,7 +52,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      // home: const LoginPage(),
+      home: const MyHomePage(title: 'IOT SMART FARM APP'),
+
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
 import 'package:flutter_app/login_page.dart';
+import 'main.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
