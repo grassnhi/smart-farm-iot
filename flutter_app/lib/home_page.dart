@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Center(
                       child: Image.asset(
                         'assets/images/field.png',
-                        scale: 1.0,
+                        scale: 0.8,
                       ),
                     ),
                     const SizedBox(
