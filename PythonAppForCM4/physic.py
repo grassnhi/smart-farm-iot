@@ -119,6 +119,8 @@ class Physic:
         self.ser.write(command_data)  # Sends the command data to the sensor
         time.sleep(1)  # Wait a bit for the sensor to respond
         return_data, result = self.serial_read_data()  # Reads the response from the sensor
+        if self.debug_flag == True:
+            print("Received data ", return_data)
         result = result/100.00
         return result  # Returns the decoded sensor value
 
