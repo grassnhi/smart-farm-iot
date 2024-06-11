@@ -6,6 +6,8 @@ import 'dart:convert'; // For JSON decoding
 import 'home_page.dart';
 // Global variable of mqtt for late using
 late MQTTHelper global_mqttHelper;
+late String global_temperature = "25°C";
+late String global_humidity = "0%";
 
 class MqttManager {
   /* MQTT information:
@@ -24,12 +26,39 @@ class MqttManager {
     global_mqttHelper = MQTTHelper(server, "flutter_client", username, password);
     global_mqttHelper.onConnectedCallback = () {
       for (String topic in subTopics) {
-        global_mqttHelper.subscribe(topic);
+        if(topic == "smartfarm_iot/feeds/V15"){
+          global_mqttHelper.subscribe(topic, _updateSensorData);
+        }
+        else {
+          global_mqttHelper.subscribe(topic);
+        }
       }
     };
     global_mqttHelper.initializeMQTTClient();
-  }
 
+  }
+  void _updateSensorData(String topic, dynamic message) {
+    /* publish JSON message to the topic "smartfarm_iot/feeds/V15"
+    [
+      {
+        "action": "update sensor",
+        "timestamp":"11-06-2024 22:17:27 GMT+0700",
+        "data": {
+          "temperature": "25",
+          "humidity": "65"
+        }
+      }
+    ]
+    */
+    // Message is String, so we need to decode it to JSON, try-catch is used to handle the exception
+    try {
+      final Map<String, dynamic> data = jsonDecode(message);
+      global_temperature = data["temperature"].toString() + "°C";
+      global_humidity = data["humidity"].toString() + "%";
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
 }
 
 void main() async {

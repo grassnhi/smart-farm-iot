@@ -4,6 +4,7 @@ import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
 import 'package:flutter_app/login_page.dart';
 import 'main.dart';
+import 'package:intl/intl.dart'; // Thêm thư viện này để định dạng thời gian
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -25,6 +26,12 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isArea2Pressed = false;
   bool isArea3Pressed = false;
 
+  String _getCurrentTimestamp() {
+    final now = DateTime.now().toUtc().add(Duration(hours: 7)); // GMT+7
+    final formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
+    return '${formatter.format(now)} GMT+0700';
+  }
+
   void _onMixer1Pressed() {
     setState(() {
       isMixer1Pressed = !isMixer1Pressed;
@@ -32,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "mixer_0001",
         "data": isMixer1Pressed ? "1" : "0",
       }
@@ -46,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "mixer_0002",
         "data": isMixer2Pressed ? "1" : "0",
       }
@@ -60,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "mixer_0003",
         "data": isMixer3Pressed ? "1" : "0",
       }
@@ -74,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "area_0001",
         "data": isArea1Pressed ? "1" : "0",
       }
@@ -88,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "area_0002",
         "data": isArea2Pressed ? "1" : "0",
       }
@@ -102,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "area_0003",
         "data": isArea3Pressed ? "1" : "0",
       }
@@ -116,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "pump_in_0001",
         "data": isPumpInOn ? "0" : "1",
       }
@@ -130,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
+        "timestamp": _getCurrentTimestamp(),
         "actuator_id": "pump_out_0001",
         "data": isPumpOutOn ? "0" : "1",
       }
@@ -140,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo.shade50,
+      backgroundColor: Colors.white, // Đổi màu nền thành màu trắng
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
@@ -334,6 +349,25 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _dataBox(
+                          title: 'Temperature',
+                          // Replace with global_temperature (always updated by MQTT)
+                          data: global_temperature,
+                          icon: Icons.thermostat,
+                        ),
+                        const SizedBox(width: 16),
+                        _dataBox(
+                          title: 'Humidity',
+                          // Replace with global_humidity (always updated by MQTT)
+                          data: global_humidity,
+                          icon: Icons.water_drop,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               )
@@ -412,6 +446,44 @@ class _MyHomePageState extends State<MyHomePage> {
               color: isActive ? Colors.white : Colors.black,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _dataBox({
+    required String title,
+    required String data,
+    required IconData icon,
+  }) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.black, width: 1),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: Colors.indigo),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              data,
+              style: const TextStyle(
+                fontSize: 24,
+              ),
+            ),
+          ],
         ),
       ),
     );

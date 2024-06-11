@@ -60,14 +60,14 @@ class MQTTHelper {
     print('Message published to $topic');
   }
 
-  void subscribe(String topic, [Function(dynamic message)? onMessage]) {
+  void subscribe(String topic, [Function(String topic, dynamic message)? onMessage]) {
     _client.subscribe(topic, MqttQos.atLeastOnce);
     _client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
       final payload = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       print('Received message from topic "${c[0].topic}":\n "$payload"');
       if (onMessage != null) {
-        onMessage(payload); // Call the provided onMessage function
+        onMessage(topic, payload); // Call the provided onMessage function
       }
     });
   }
