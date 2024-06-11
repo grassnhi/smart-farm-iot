@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
@@ -17,8 +16,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isLedOn = false;
-  bool isPumpOn = false;
-  bool isPumpIn = true;
+  bool isPumpInOn = true;
+  bool isPumpOutOn = true;
   bool isMixer1Pressed = false;
   bool isMixer2Pressed = false;
   bool isMixer3Pressed = false;
@@ -27,14 +26,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isArea3Pressed = false;
 
   void _onMixer1Pressed() {
-    // TODO: Implement the mixer 1 button press logic
-    // Message = [
-    //   {
-    //     "action": "control actuator",
-    //     "actuator_id": "mixer_0001",
-    //     "data" : "1"
-    //   }
-    // ]
     setState(() {
       isMixer1Pressed = !isMixer1Pressed;
     });
@@ -49,8 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onMixer2Pressed() {
-    // TODO: Implement the mixer 2 button press logic
-    // The same with mixer 1
     setState(() {
       isMixer2Pressed = !isMixer2Pressed;
     });
@@ -65,8 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onMixer3Pressed() {
-    // TODO: Implement the mixer 3 button press logic
-    // the same with mixer 1
     setState(() {
       isMixer3Pressed = !isMixer3Pressed;
     });
@@ -81,8 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onArea1Pressed() {
-    // TODO: Implement the area 1 button press logic
-    // The same with mixer 1 but ID = area_0001
     setState(() {
       isArea1Pressed = !isArea1Pressed;
     });
@@ -97,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onArea2Pressed() {
-    // TODO: Implement the area 2 button press logic
     setState(() {
       isArea2Pressed = !isArea2Pressed;
     });
@@ -112,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onArea3Pressed() {
-    // TODO: Implement the area 3 button press logic
     setState(() {
       isArea3Pressed = !isArea3Pressed;
     });
@@ -121,6 +104,34 @@ class _MyHomePageState extends State<MyHomePage> {
         "action": "control actuator",
         "actuator_id": "area_0003",
         "data": isArea3Pressed ? "1" : "0",
+      }
+    ];
+    global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
+  }
+
+  void _onPumpInPressed(bool newValue) {
+    setState(() {
+      isPumpInOn = newValue;
+    });
+    var message = [
+      {
+        "action": "control actuator",
+        "actuator_id": "pump_in_0001",
+        "data": isPumpInOn ? "0" : "1",
+      }
+    ];
+    global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
+  }
+
+  void _onPumpOutPressed(bool newValue) {
+    setState(() {
+      isPumpOutOn = newValue;
+    });
+    var message = [
+      {
+        "action": "control actuator",
+        "actuator_id": "pump_out_0001",
+        "data": isPumpOutOn ? "0" : "1",
       }
     ];
     global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
@@ -210,7 +221,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         _roundedButton(
                           title: 'AUTOMATIC',
                           onPressed: () {
-                            // Navigate to automatic page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -222,7 +232,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         _roundedButton(
                           title: 'HISTORY',
                           onPressed: () {
-                            // Navigate to automatic page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -248,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontColor: Colors.white,
                           onTap: _onMixer1Pressed,
                         ),
-                        const SizedBox(width: 16), // Add distance
+                        const SizedBox(width: 16),
                         _cardMenu(
                           title: 'Mixer 2',
                           icon: 'assets/images/mixer2.png',
@@ -258,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontColor: Colors.white,
                           onTap: _onMixer2Pressed,
                         ),
-                        const SizedBox(width: 16), // Add distance
+                        const SizedBox(width: 16),
                         _cardMenu(
                           title: 'Mixer 3',
                           icon: 'assets/images/mixer1.png',
@@ -285,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontColor: Colors.white,
                           onTap: _onArea1Pressed,
                         ),
-                        const SizedBox(width: 16), // Add distance
+                        const SizedBox(width: 16),
                         _cardMenu(
                           title: 'Area 2',
                           icon: 'assets/images/area3.png',
@@ -295,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontColor: Colors.white,
                           onTap: _onArea2Pressed,
                         ),
-                        const SizedBox(width: 16), // Add distance
+                        const SizedBox(width: 16),
                         _cardMenu(
                           title: 'Area 3',
                           icon: 'assets/images/area2.png',
@@ -307,17 +316,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20), // Add spacing
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AnimatedSwitch(
-                          isPumpIn: isPumpIn,
-                          onTap: (bool newValue) {
-                            setState(() {
-                              isPumpIn = newValue; // Update the pump state
-                            });
-                          },
+                          isOn: isPumpInOn,
+                          onTap: _onPumpInPressed,
+                          onText: 'PUMP IN',
+                          offText: 'PUMP IN',
+                        ),
+                        AnimatedSwitch(
+                          isOn: isPumpOutOn,
+                          onTap: _onPumpOutPressed,
+                          onText: 'PUMP OFF',
+                          offText: 'PUMP OFF',
                         ),
                       ],
                     ),
@@ -345,7 +358,7 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: Colors.black, width: 1), // Add border
+            border: Border.all(color: Colors.black, width: 1),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -383,10 +396,9 @@ class _MyHomePageState extends State<MyHomePage> {
     VoidCallback? onPressed,
   }) {
     return SizedBox(
-      height: 60, // Adjust the height as needed
-      // width: 150,
+      height: 60,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8), // Add vertical margin
+        margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: isActive ? Colors.indigo : Colors.transparent,
           borderRadius: BorderRadius.circular(24),

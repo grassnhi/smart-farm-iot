@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
 class AnimatedSwitch extends StatelessWidget {
-  final bool isPumpIn;
+  final bool isOn;
   final void Function(bool) onTap;
+  final String onText;
+  final String offText;
 
   const AnimatedSwitch({
     Key? key,
-    required this.isPumpIn,
+    required this.isOn,
     required this.onTap,
+    this.onText = 'PUMP IN',
+    this.offText = 'PUMP OFF',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap(!isPumpIn); // Toggle the pump state
+        onTap(!isOn); // Toggle the switch state
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -29,7 +33,7 @@ class AnimatedSwitch extends StatelessWidget {
           children: [
             const SizedBox(width: 8),
             Text(
-              isPumpIn ? 'PUMP IN' : 'PUMP OUT',
+              isOn ? onText : offText,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -65,16 +69,14 @@ class AnimatedSwitch extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    crossFadeState: isPumpIn
+                    crossFadeState: isOn
                         ? CrossFadeState.showFirst
                         : CrossFadeState.showSecond,
                     duration: const Duration(milliseconds: 200),
                   ),
                   AnimatedAlign(
                     duration: const Duration(milliseconds: 300),
-                    alignment: isPumpIn
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
+                    alignment: isOn ? Alignment.centerLeft : Alignment.centerRight,
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 2,
@@ -83,7 +85,7 @@ class AnimatedSwitch extends StatelessWidget {
                       width: 42 * 0.5,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isPumpIn
+                        color: isOn
                             ? Theme.of(context).primaryColor
                             : Colors.white,
                       ),
