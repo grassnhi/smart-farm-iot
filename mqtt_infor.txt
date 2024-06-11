@@ -9,10 +9,28 @@ MQTT_SUB_TOPIC = "smartfarm_iot/feeds/V15"
 [
   {
     "action": "control actuator",
-    "actuator_id": "relay_1",
+    "actuator_id": "mixer_0001",
     "data" : "1"
   }
 ]
+
+[
+  {
+    "action": "control actuator",
+    "actuator_id": "mixer_0002",
+    "data" : "1"
+  }
+]
+
+[
+  {
+    "action": "control actuator",
+    "actuator_id": "mixer_0003",
+    "data" : "1"
+  }
+]
+
+
 
 [
   {
