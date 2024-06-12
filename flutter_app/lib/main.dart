@@ -38,23 +38,13 @@ class MqttManager {
 
   }
   void _updateSensorData(String topic, dynamic message) {
-    /* publish JSON message to the topic "smartfarm_iot/feeds/V15"
-    [
-      {
-        "action": "update sensor",
-        "timestamp":"11-06-2024 22:17:27 GMT+0700",
-        "data": {
-          "temperature": "25",
-          "humidity": "65"
-        }
-      }
-    ]
-    */
-    // Message is String, so we need to decode it to JSON, try-catch is used to handle the exception
     try {
-      final Map<String, dynamic> data = jsonDecode(message);
-      global_temperature = data["temperature"].toString() + "°C";
-      global_humidity = data["humidity"].toString() + "%";
+      final List<dynamic> dataList = jsonDecode(message);
+      if (dataList.isNotEmpty) {
+        final Map<String, dynamic> data = dataList[0];
+        global_temperature = data["data"]["temperature"].toString() + "°C";
+        global_humidity = data["data"]["humidity"].toString() + "%";
+      }
     } catch (e) {
       print("Error: $e");
     }
