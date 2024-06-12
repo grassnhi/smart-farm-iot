@@ -1,0 +1,1 @@
+ D:\\Documents\\Github\\smart-farm-iot\\flutter_app\\.dart_tool\\flutter_build\\4caed554b9cb4cd5e68adc131d4580f0\\native_assets.yaml: 

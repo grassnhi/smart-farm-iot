@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">644343661786</string>
+    <string name="google_api_key" translatable="false">AIzaSyA0qn5TpN2Dqk8FW5_drLZkvO9-mRf_fIk</string>
+    <string name="google_app_id" translatable="false">1:644343661786:android:5d67e187b0d6a8a74611e3</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA0qn5TpN2Dqk8FW5_drLZkvO9-mRf_fIk</string>
+    <string name="google_storage_bucket" translatable="false">smartfarm-g3.appspot.com</string>
+    <string name="project_id" translatable="false">smartfarm-g3</string>
+</resources>
