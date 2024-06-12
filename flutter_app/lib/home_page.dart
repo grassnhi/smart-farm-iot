@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
+import 'package:flutter_app/history_page.dart';
 import 'package:flutter_app/login_page.dart';
 import 'global_data_widget.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_app/noti_page.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -186,21 +189,46 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: IconButton(
-                      iconSize: 30,
-                      icon: const Icon(Icons.logout),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
+                  Stack(
+                    children: [
+                      IconButton(
+                        iconSize: 30,
+                        icon: const Icon(Icons.notifications),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NotiPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      Positioned(
+                        right: 8,
+                        top: 8,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 0),
+                  IconButton(
+                    iconSize: 30,
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -214,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Center(
                       child: Image.asset(
                         'assets/images/field.png',
-                        scale: 1.2,
+                        scale: 0.8,
                       ),
                     ),
                     const SizedBox(
@@ -229,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -240,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AutomaticPage(),
+                                builder: (context) => const AutomaticPage(),
                               ),
                             );
                           },
@@ -251,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AutomaticPage(),
+                                builder: (context) => HistoryPage(),
                               ),
                             );
                           },
@@ -356,14 +384,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         _dataBox(
                           title: 'Temperature',
-                          // Replace with temperature from GlobalDataWidget
                           data: Provider.of<GlobalData>(context).temperature,
                           icon: Icons.thermostat,
                         ),
                         const SizedBox(width: 16),
                         _dataBox(
                           title: 'Humidity',
-                          // Replace with humidity from GlobalDataWidget
                           data: Provider.of<GlobalData>(context).humidity,
                           icon: Icons.water_drop,
                         ),
@@ -371,7 +397,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
