@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import the intl package for date formatting
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -29,10 +30,20 @@ class _HistoryPageState extends State<HistoryPage> {
         final data = event.snapshot.value as Map<dynamic, dynamic>;
         setState(() {
           schedules = data.entries.map((entry) {
+            String name = entry.value["schedulerName"];
+            String startTime = entry.value["startTime"];
+            String endTime = entry.value["stopTime"];
+            String timestamp = entry.value["timestamp"];
+
+            // Format the timestamp to date
+            DateTime dateTime = DateFormat('dd-MM-yyyy HH:mm:ss').parse(timestamp.split(' ')[0] + ' ' + timestamp.split(' ')[1]);
+            String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
             return {
-              "name": entry.key,
-              "startTime": entry.value["startTime"],
-              "endTime": entry.value["stopTime"],
+              "name": name,
+              "formattedDate": formattedDate,
+              "startTime": startTime,
+              "endTime": endTime,
             };
           }).toList();
         });
@@ -57,7 +68,7 @@ class _HistoryPageState extends State<HistoryPage> {
           return ListTile(
             leading: Icon(Icons.schedule, color: Colors.blue),
             title: Text(
-              "Scheduler '${schedule["name"]}'",
+              "Scheduler '${schedule["name"]}' (${schedule["formattedDate"]})",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text(
