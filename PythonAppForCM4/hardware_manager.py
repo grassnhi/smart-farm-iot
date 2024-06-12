@@ -17,7 +17,7 @@ class HardwareManager:
         self.mqtt_helper.connect()
 
         self.mqtt_helper.subscribe(self.subTopic)
-        self.hardware = Physic(True)
+        self.hardware = Physic(False)
         self.onMessage = self.mqtt_helper.on_message
 
     def onMessage(self, client, userdata, msg):
@@ -63,6 +63,7 @@ class HardwareManager:
         #   }
         # ]
         # get current time GMT +7
+        print("Updating sensor data...")
         timeStamp = str(datetime.now().strftime("%d-%m-%Y %H:%M:%S GMT+0700"))
         data = [
             {
