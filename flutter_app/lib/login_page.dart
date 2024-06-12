@@ -32,8 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                  'assets/images/bg.jpg'), // Path to your background image
+              image: AssetImage('assets/images/bg.jpg'), // Path to your background image
               fit: BoxFit.cover,
             ),
           ),
@@ -55,6 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: const InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -64,6 +65,8 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: const InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -72,9 +75,15 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: _signIn,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // Background color
+                      foregroundColor: Colors.black, // Text color
+                    ),
                     child: _isSigning
-                        ? CircularProgressIndicator()
-                        : const Text('Login'),
+                        ? CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    )
+                        : const Text('LOGIN'),
                   ),
                 ),
               ],
