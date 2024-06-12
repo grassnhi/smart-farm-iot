@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/animated_switch.dart';
 import 'package:flutter_app/automatic_page.dart';
 import 'package:flutter_app/login_page.dart';
+import 'global_data_widget.dart';
 import 'main.dart';
-import 'package:intl/intl.dart'; // Thêm thư viện này để định dạng thời gian
-
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -155,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Đổi màu nền thành màu trắng
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
@@ -186,10 +187,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   SizedBox(
-                    width: 40, // Adjust the width as needed
-                    height: 40, // Adjust the height as needed
+                    width: 40,
+                    height: 40,
                     child: IconButton(
-                      iconSize: 30, // Adjust the icon size as needed
+                      iconSize: 30,
                       icon: const Icon(Icons.logout),
                       onPressed: () {
                         Navigator.push(
@@ -355,15 +356,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         _dataBox(
                           title: 'Temperature',
-                          // Replace with global_temperature (always updated by MQTT)
-                          data: global_temperature,
+                          // Replace with temperature from GlobalDataWidget
+                          data: Provider.of<GlobalData>(context).temperature,
                           icon: Icons.thermostat,
                         ),
                         const SizedBox(width: 16),
                         _dataBox(
                           title: 'Humidity',
-                          // Replace with global_humidity (always updated by MQTT)
-                          data: global_humidity,
+                          // Replace with humidity from GlobalDataWidget
+                          data: Provider.of<GlobalData>(context).humidity,
                           icon: Icons.water_drop,
                         ),
                       ],
