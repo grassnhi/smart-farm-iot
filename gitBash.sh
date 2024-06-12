@@ -10,7 +10,7 @@ if [ -d "smart-farm-iot" ]; then
 fi
 
 echo "Cloning smart-farm-iot from GitHub..."
-git clone https://github.com/grassnhi/smart-farm-iot.git
+git clone -b runCM4 https://github.com/grassnhi/smart-farm-iot.git
 
 cd smart-farm-iot
 chmod 777 gitBash.sh
