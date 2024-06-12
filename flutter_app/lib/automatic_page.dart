@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -24,23 +23,7 @@ class Schedule {
     this.isActive = false,
   });
 
-  void _uploadSchedule() {
-    /* Upload schedule to the server
-      [
-        {
-          "action": "schedule",
-          "timestamp":"11-06-2024 22:17:27 GMT+0700",
-          "cycle": 5,
-          "flow1": 20,
-          "flow2": 10,
-          "flow3": 20,
-          "isActive": true,
-          "schedulerName": "LỊCH TƯỚI 1",
-          "startTime": "18:30",
-          "stopTime": "18:40"
-        }
-    ]
-  */
+  void uploadSchedule() {
     var message = {
       "action": "schedule",
       "timestamp": getCurrentTimestamp(),
@@ -55,10 +38,10 @@ class Schedule {
     };
     global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
 
-    //TODO: send message to firebase database
-
+    // TODO: send message to firebase database
   }
-  void _deleteSchedule() {
+
+  void deleteSchedule() {
     flow1 = 0;
     flow2 = 0;
     flow3 = 0;
@@ -70,21 +53,28 @@ class Schedule {
   }
 }
 
-
 class AutomaticPage extends StatefulWidget {
-  const AutomaticPage({Key? key});
+  const AutomaticPage({Key? key}) : super(key: key);
 
   @override
   _AutomaticPageState createState() => _AutomaticPageState();
 }
 
 class _AutomaticPageState extends State<AutomaticPage> {
-  bool isActive = false; // Variable to track the checkbox state
-  Schedule schedule = Schedule();
+  final _formKey = GlobalKey<FormState>();
+  final Schedule schedule = Schedule();
+
   void _submitSchedule() {
-    schedule._uploadSchedule();
-    schedule._deleteSchedule();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      schedule.uploadSchedule();
+      schedule.deleteSchedule();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Schedule submitted successfully!')),
+      );
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,90 +84,156 @@ class _AutomaticPageState extends State<AutomaticPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Enter Irrigation Scheduler',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Scheduler Name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Start Time (mm:ss)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'End Time (mm:ss)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Cycle Time (minutes)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Flow 1 (seconds)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Flow 2 (seconds)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Flow 3 (seconds)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Checkbox(
-                    value: isActive, // Set the value based on isActive variable
-                    onChanged: (value) {
-                      setState(() {
-                        isActive = value ?? false; // Update isActive when checkbox state changes
-                      });
-                    },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Enter Irrigation Scheduler',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Text('Is Active'),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _submitSchedule,
-                    child: const Text('Submit'),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Scheduler Name',
+                    border: OutlineInputBorder(),
                   ),
-                ],
-              ),
-            ],
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a scheduler name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.name = value!;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Start Time (hh:mm)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a start time';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.startTime = value!;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'End Time (hh:mm)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an end time';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.endTime = value!;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Cycle Time (minutes)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a cycle time';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.cycleTime = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Flow 1 (seconds)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a flow time for flow 1';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.flow1 = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Flow 2 (seconds)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a flow time for flow 2';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.flow2 = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Flow 3 (seconds)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a flow time for flow 3';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    schedule.flow3 = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: schedule.isActive,
+                      onChanged: (value) {
+                        setState(() {
+                          schedule.isActive = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('Is Active'),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _submitSchedule,
+                      child: const Text('Submit'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
