@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "644343661786",
+    "project_id": "smartfarm-g3",
+    "storage_bucket": "smartfarm-g3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644343661786:android:5d67e187b0d6a8a74611e3",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0qn5TpN2Dqk8FW5_drLZkvO9-mRf_fIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
