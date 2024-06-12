@@ -30,11 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isArea2Pressed = false;
   bool isArea3Pressed = false;
 
-  String _getCurrentTimestamp() {
-    final now = DateTime.now().toUtc().add(Duration(hours: 7)); // GMT+7
-    final formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
-    return '${formatter.format(now)} GMT+0700';
-  }
 
   void _onMixer1Pressed() {
     setState(() {
@@ -43,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "mixer_0001",
         "data": isMixer1Pressed ? "1" : "0",
       }
@@ -58,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "mixer_0002",
         "data": isMixer2Pressed ? "1" : "0",
       }
@@ -73,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "mixer_0003",
         "data": isMixer3Pressed ? "1" : "0",
       }
@@ -88,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "area_0001",
         "data": isArea1Pressed ? "1" : "0",
       }
@@ -103,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "area_0002",
         "data": isArea2Pressed ? "1" : "0",
       }
@@ -118,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "area_0003",
         "data": isArea3Pressed ? "1" : "0",
       }
@@ -133,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "pump_in_0001",
         "data": isPumpInOn ? "0" : "1",
       }
@@ -148,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var message = [
       {
         "action": "control actuator",
-        "timestamp": _getCurrentTimestamp(),
+        "timestamp": getCurrentTimestamp(),
         "actuator_id": "pump_out_0001",
         "data": isPumpOutOn ? "0" : "1",
       }

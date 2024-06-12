@@ -4,7 +4,7 @@
             "outputFile": "com.example.flutter_app-mergeDebugResources-14:/values-ar/values-ar.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\6fd5d2cc743e312693c598cf6ac567dc\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-ar\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0ee48884b394acdf345fcc16ecb11173\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-ar\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -21,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\ee97095c89b29723345ef5693115d5fd\\transformed\\jetified-play-services-base-18.0.1\\res\\values-ar\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "193,293,433,551,652,786,910,1017,1115,1248,1348,1494,1612,1747,1889,1949,2011",
-                        "endColumns": "99,139,117,100,133,123,106,97,132,99,145,117,134,141,59,61,79",
-                        "endOffsets": "292,432,550,651,785,909,1016,1114,1247,1347,1493,1611,1746,1888,1948,2010,2090"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,159,303,425,530,668,796,907,1139,1276,1380,1530,1652,1791,1937,2001,2067",
-                        "endColumns": "103,143,121,104,137,127,110,101,136,103,149,121,138,145,63,65,83",
-                        "endOffsets": "154,298,420,525,663,791,902,1004,1271,1375,1525,1647,1786,1932,1996,2062,2146"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\80a906fc41172aae31985f91fe71681e\\transformed\\browser-1.4.0\\res\\values-ar\\values-ar.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\3b578ddc6459beb8a00f99e90c4fa64a\\transformed\\browser-1.4.0\\res\\values-ar\\values-ar.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -55,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0a7c6c2651266977f28537434d965dbd\\transformed\\core-1.6.0\\res\\values-ar\\values-ar.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\4e2506072769c0174ed14cf7ab19f7cb\\transformed\\jetified-play-services-base-18.1.0\\res\\values-ar\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "193,293,433,551,652,786,910,1017,1115,1248,1348,1494,1612,1747,1889,1949,2011",
+                        "endColumns": "99,139,117,100,133,123,106,97,132,99,145,117,134,141,59,61,79",
+                        "endOffsets": "292,432,550,651,785,909,1016,1114,1247,1347,1493,1611,1746,1888,1948,2010,2090"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,159,303,425,530,668,796,907,1139,1276,1380,1530,1652,1791,1937,2001,2067",
+                        "endColumns": "103,143,121,104,137,127,110,101,136,103,149,121,138,145,63,65,83",
+                        "endOffsets": "154,298,420,525,663,791,902,1004,1271,1375,1525,1647,1786,1932,1996,2062,2146"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\27aecaba15238402d63266daf9c1518f\\transformed\\core-1.6.0\\res\\values-ar\\values-ar.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

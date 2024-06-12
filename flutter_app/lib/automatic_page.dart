@@ -1,5 +1,76 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'main.dart';
+
+class Schedule {
+  String name;
+  String startTime;
+  String endTime;
+  int cycleTime;
+  int flow1;
+  int flow2;
+  int flow3;
+  bool isActive;
+
+  Schedule({
+    this.name = '',
+    this.startTime = '',
+    this.endTime = '',
+    this.cycleTime = 0,
+    this.flow1 = 0,
+    this.flow2 = 0,
+    this.flow3 = 0,
+    this.isActive = false,
+  });
+
+  void _uploadSchedule() {
+    /* Upload schedule to the server
+      [
+        {
+          "action": "schedule",
+          "timestamp":"11-06-2024 22:17:27 GMT+0700",
+          "cycle": 5,
+          "flow1": 20,
+          "flow2": 10,
+          "flow3": 20,
+          "isActive": true,
+          "schedulerName": "LỊCH TƯỚI 1",
+          "startTime": "18:30",
+          "stopTime": "18:40"
+        }
+    ]
+  */
+    var message = {
+      "action": "schedule",
+      "timestamp": getCurrentTimestamp(),
+      "cycle": cycleTime,
+      "flow1": flow1,
+      "flow2": flow2,
+      "flow3": flow3,
+      "isActive": isActive,
+      "schedulerName": name,
+      "startTime": startTime,
+      "stopTime": endTime
+    };
+    global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
+
+    //TODO: send message to firebase database
+
+  }
+  void _deleteSchedule() {
+    flow1 = 0;
+    flow2 = 0;
+    flow3 = 0;
+    cycleTime = 0;
+    isActive = false;
+    name = '';
+    startTime = '';
+    endTime = '';
+  }
+}
+
+
 class AutomaticPage extends StatefulWidget {
   const AutomaticPage({Key? key});
 
@@ -9,7 +80,11 @@ class AutomaticPage extends StatefulWidget {
 
 class _AutomaticPageState extends State<AutomaticPage> {
   bool isActive = false; // Variable to track the checkbox state
-
+  Schedule schedule = Schedule();
+  void _submitSchedule() {
+    schedule._uploadSchedule();
+    schedule._deleteSchedule();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,9 +172,7 @@ class _AutomaticPageState extends State<AutomaticPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: _submitSchedule,
                     child: const Text('Submit'),
                   ),
                 ],

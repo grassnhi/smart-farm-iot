@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 import 'package:flutter_app/mqtt_helper.dart';
+import 'package:intl/intl.dart';
 import 'global_data_widget.dart';
 import 'login_page.dart';
 import 'dart:convert'; // For JSON decoding
@@ -93,4 +94,10 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'IOT SMART FARM APP'),
     );
   }
+}
+
+String getCurrentTimestamp() {
+  final now = DateTime.now().toUtc().add(Duration(hours: 7)); // GMT+7
+  final formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
+  return '${formatter.format(now)} GMT+0700';
 }
