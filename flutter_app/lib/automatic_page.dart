@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'main.dart';
@@ -23,6 +26,12 @@ class Schedule {
     this.isActive = false,
   });
 
+  String getCurrentTimestamp() {
+    final now = DateTime.now().toUtc().add(Duration(hours: 7)); // GMT+7
+    final formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
+    return '${formatter.format(now)} GMT+0700';
+  }
+
   void uploadSchedule() {
     var message = {
       "action": "schedule",
@@ -38,7 +47,17 @@ class Schedule {
     };
     global_mqttHelper.publish("smartfarm_iot/feeds/V20", jsonEncode(message));
 
-    // TODO: send message to firebase database
+    // Send message to Firebase Realtime Database
+    final databaseReference = FirebaseDatabase.instanceFor(
+      app: Firebase.app(),
+      databaseURL: "https://smartfarm-g3-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    ).ref().child("schedules").child(name);
+
+    databaseReference.set(message).then((_) {
+      print("Schedule uploaded to Firebase");
+    }).catchError((error) {
+      print("Failed to upload schedule to Firebase: $error");
+    });
   }
 
   void deleteSchedule() {
